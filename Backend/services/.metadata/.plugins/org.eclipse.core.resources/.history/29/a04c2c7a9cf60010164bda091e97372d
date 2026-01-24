@@ -1,0 +1,5 @@
+package com.ecohub.dailychallenges.entity;
+
+public enum ChallengeCategory {
+
+}

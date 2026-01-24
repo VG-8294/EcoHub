@@ -1,0 +1,9 @@
+package com.ecohub.dailychallenges.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ecohub.dailychallenges.entity.DailyChallenges;
+
+public interface repository extends JpaRepository<DailyChallenges, Long > {
+
+}

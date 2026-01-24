@@ -1,0 +1,5 @@
+package com.ecohub.dailychallenges.controller;
+
+public class HelloController {
+
+}

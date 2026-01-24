@@ -1,0 +1,18 @@
+package com.ecohub.dailychallenges.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ecohub.dailychallenges.entity.DailyChallenges;
+import com.ecohub.dailychallenges.repository.DailyChallengeRepository;
+
+@RestController
+@RequestMapping("/api/daily-challenges")
+
+public class DailyChallengeController {
+	private final DailyChallengeRepository repository;
+	
+	public DailyChallengeController(DailyChallengeRepository repository) {
+		this.repository = repository;
+	}
+}

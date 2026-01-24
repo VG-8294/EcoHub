@@ -1,0 +1,52 @@
+package com.ecohub.workshop.controller;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
+import com.ecohub.workshop.entity.Workshop;
+import com.ecohub.workshop.repository.workshopRepository;
+
+@RestController
+@RequestMapping("/api/workshops")
+public class workshopController {
+	public final workshopRepository repository;
+	
+	public workshopController(workshopRepository repository) {
+		this.repository = repository;
+	}
+	
+	@PostMapping
+	public Workshop createWorkshop(@RequestBody Workshop w) {
+		return repository.save(w);
+	}
+	
+	@GetMapping
+	public List<Workshop> createWorkshop() {
+		return repository.findAll();
+	}
+	
+	
+	
+	@DeleteMapping("/{id}")
+	public String deleteWorkshop(@RequestBody long id) {
+		repository.deleteById(id);
+		return "Workshop deleted!";
+	}
+	
+	@PutMapping("/{id}")
+	public Workshop updateWorkshop(@PathVariable long id,@RequestBody  Workshop updatedW) {
+		Workshop existingWorkshop = repository.findById(id)
+				.orElseThrow(()-> new RuntimeException("Workshop not found!"));
+		
+		existingWorkshop.setTitle(updatedW.getTitle());
+		existingWorkshop.setDescription(updatedW.getDescription());
+		existingWorkshop.setWorkshopDateTime(updatedW.getWorkshopDateTime());
+		existingWorkshop.setMode(updatedW.getMode());
+		existingWorkshop.setLocation(updatedW.getLocation());
+		existingWorkshop.setRewardCoinValue(updatedW.getRewardCoinValue());
+		
+		return repository.save(existingWorkshop);
+		
+	}
+}

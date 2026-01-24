@@ -1,0 +1,5 @@
+package com.ecohub.dailychallenges.security;
+
+public class SecurityConfig {
+
+}

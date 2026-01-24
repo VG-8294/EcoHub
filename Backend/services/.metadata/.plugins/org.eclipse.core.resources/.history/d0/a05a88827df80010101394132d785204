@@ -1,0 +1,5 @@
+package com.ecohub.workshop.entity;
+
+public class Workshop {
+
+}
