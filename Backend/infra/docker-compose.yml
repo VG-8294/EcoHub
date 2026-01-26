@@ -20,5 +20,50 @@ services:
       timeout: 5s
       retries: 5
 
+
+  daily-challenges-db:
+    image: mysql:8.0
+    container_name: daily-challenges-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: daily_challenges_db
+      MYSQL_USER: challenge_user
+      MYSQL_PASSWORD: challenge_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - challenges_db_data:/var/lib/mysql
+
+  workshop-db:
+      image: mysql:8.0
+      container_name: workshop-db
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: workshop_db
+        MYSQL_USER: workshop_user
+        MYSQL_PASSWORD: workshop_pass
+      ports:
+        - "3310:3306"
+      volumes:
+        - workshop_db_data:/var/lib/mysql
+
+  reward-wallet-db:
+    image: mysql:8.0
+    container_name: reward-wallet-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: reward_wallet_db
+      MYSQL_USER: wallet_user
+      MYSQL_PASSWORD: wallet_pass
+    ports:
+      - "3311:3306"
+    volumes:
+      - reward_wallet_db_data:/var/lib/mysql
+
+
 volumes:
   mysql_data:
+  challenges_db_data:
+  workshop_db_data:
+  reward_wallet_db_data:

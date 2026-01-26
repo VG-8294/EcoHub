@@ -2,58 +2,89 @@ package com.ecohub.workshop.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.ecohub.workshop.entity.Workshop;
-import com.ecohub.workshop.repository.workshopRepository;
+import com.ecohub.workshop.dto.WorkshopRequestDto;
+import com.ecohub.workshop.dto.WorkshopResponseDto;
+import com.ecohub.workshop.service.WorkshopService;
 
 @RestController
 @RequestMapping("/api/workshops")
 public class workshopController {
-	public final workshopRepository repository;
-	
-	public workshopController(workshopRepository repository) {
-		this.repository = repository;
-	}
-	
-	@PostMapping
-	public Workshop createWorkshop(@RequestBody Workshop w) {
-		return repository.save(w);
-	}
-	
-	@GetMapping
-	public List<Workshop> createWorkshop() {
-		return repository.findAll();
-	}
-	
-	
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteWorkshop(@PathVariable Long id) {
 
-	    if (!repository.existsById(id)) {
-	        return ResponseEntity.notFound().build();
-	    }
+    private final WorkshopService service;
 
-	    repository.deleteById(id);
-	    return ResponseEntity.ok("Workshop deleted successfully");
-	}
+    public workshopController(WorkshopService service) {
+        this.service = service;
+    }
 
-	
-	@PutMapping("/{id}")
-	public Workshop updateWorkshop(@PathVariable long id,@RequestBody  Workshop updatedW) {
-		Workshop existingWorkshop = repository.findById(id)
-				.orElseThrow(()-> new RuntimeException("Workshop not found!"));
-		
-		existingWorkshop.setTitle(updatedW.getTitle());
-		existingWorkshop.setDescription(updatedW.getDescription());
-		existingWorkshop.setWorkshopDateTime(updatedW.getWorkshopDateTime());
-		existingWorkshop.setMode(updatedW.getMode());
-		existingWorkshop.setLocation(updatedW.getLocation());
-		existingWorkshop.setRewardCoinValue(updatedW.getRewardCoinValue());
-		
-		return repository.save(existingWorkshop);
-		
-	}
+    // ================= CREATE =================
+    @PostMapping
+    public ResponseEntity<WorkshopResponseDto> createWorkshop(
+            @Valid @RequestBody WorkshopRequestDto dto
+    ) {
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        Long userId = Long.valueOf(auth.getPrincipal().toString());
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        return ResponseEntity.ok(
+                service.create(dto, userId, isAdmin)
+        );
+    }
+
+    // ================= READ ALL =================
+    @GetMapping
+    public ResponseEntity<List<WorkshopResponseDto>> getAllWorkshops() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    // ================= READ BY ID =================
+    @GetMapping("/{id}")
+    public ResponseEntity<WorkshopResponseDto> getWorkshopById(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    // ================= UPDATE =================
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkshopResponseDto> updateWorkshop(
+            @PathVariable Long id,
+            @Valid @RequestBody WorkshopRequestDto dto
+    ) {
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        return ResponseEntity.ok(
+                service.update(id, dto, isAdmin)
+        );
+    }
+
+    // ================= DELETE =================
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWorkshop(
+            @PathVariable Long id
+    ) {
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        service.delete(id, isAdmin);
+
+        return ResponseEntity.noContent().build();
+    }
 }
