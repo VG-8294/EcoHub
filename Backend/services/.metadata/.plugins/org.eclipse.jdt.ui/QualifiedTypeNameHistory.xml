@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
     <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
     <fullyQualifiedTypeName name="com.ecohub.dailychallenges.repository.DailyChallengeRepository"/>
     <fullyQualifiedTypeName name="com.ecohub.dailychallenges.entity.DailyChallenges"/>
@@ -21,8 +20,13 @@
     <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
     <fullyQualifiedTypeName name="com.ecohub.dailychallenges.service.DailyChallengeServiceImpln"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+    <fullyQualifiedTypeName name="jakarta.transaction.Transactional"/>
+    <fullyQualifiedTypeName name="com.ecohub.rewardwallet.repository.WalletRepository"/>
+    <fullyQualifiedTypeName name="com.ecohub.rewardwallet.dto.WalletResponseDto"/>
+    <fullyQualifiedTypeName name="com.ecohub.rewardwallet.dto.RewardTransactionResponseDto"/>
     <fullyQualifiedTypeName name="lombok.Getter"/>
     <fullyQualifiedTypeName name="lombok.Setter"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
 </qualifiedTypeNameHistroy>

@@ -1,5 +1,0 @@
-package com.ecohub.dailychallenges.entity;
-
-public @interface NotBlank {
-
-}

@@ -61,9 +61,24 @@ services:
     volumes:
       - reward_wallet_db_data:/var/lib/mysql
 
+  shop-db:
+    image: mysql:8.0
+    container_name: shop-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shop_db
+      MYSQL_USER: shop_user
+      MYSQL_PASSWORD: shop_pass
+    ports:
+      - "3312:3306"
+    volumes:
+      - shop_db_data:/var/lib/mysql
+
 
 volumes:
   mysql_data:
   challenges_db_data:
   workshop_db_data:
   reward_wallet_db_data:
+  shop_db_data:
