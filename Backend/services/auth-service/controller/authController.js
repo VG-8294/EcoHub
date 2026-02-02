@@ -35,9 +35,22 @@ exports.register = async (req, res) => {
       }
     });
     
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        userId: newUser.id,
+        isAdmin: newUser.isAdmin,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN || "1d",
+      }
+    );
+    
     // Send response (don't send password)
     res.status(201).json({ 
       message: 'User registered successfully',
+      token,
       user: {
         id: newUser.id,
         name: newUser.name,
@@ -46,6 +59,7 @@ exports.register = async (req, res) => {
         dob: newUser.dob,
         isAdmin: newUser.isAdmin,
         totalRewardCoins: newUser.totalRewardCoins,
+        currentCarbonFootprint: newUser.currentCarbonFootprint,
       }
     });
   } catch (error) {
