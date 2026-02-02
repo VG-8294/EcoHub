@@ -2,14 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config();
+const { verifyToken } = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
+app.use(express.json());
 
-// Health check
+// Health check (public)
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', service: 'API Gateway' });
 });
@@ -17,57 +19,58 @@ app.get('/health', (req, res) => {
 // Service Routes Configuration
 const services = [
   {
-    route: '/auth',
-    target: 'http://localhost:4000',
-    changeOrigin: true,
-  },
-  {
     route: '/challenges',
     target: 'http://localhost:8081',
     changeOrigin: true,
+    protected: true, // Requires authentication
   },
   {
     route: '/wallet',
     target: 'http://localhost:8084',
     changeOrigin: true,
+    protected: true,
   },
   {
     route: '/shop',
     target: 'http://localhost:8085',
     changeOrigin: true,
+    protected: true,
   },
   {
     route: '/workshop',
     target: 'http://localhost:8083',
     changeOrigin: true,
+    protected: true,
   }
 ];
 
 // Apply Proxy Rules
-services.forEach(({ route, target, changeOrigin }) => {
-  app.use(route, createProxyMiddleware({
+services.forEach(({ route, target, changeOrigin, protected: isProtected }) => {
+  const proxyMiddleware = createProxyMiddleware({
     target,
     changeOrigin,
     pathRewrite: {
-      [`^${route}`]: '', // Remove the route prefix when forwarding if needed, but usually microservices might be root or have their own context. 
-      // For now, assuming the services don't expect the prefix if I remove it.
-      // However, if the services are "Auth Service" likely it has /login, /register at root? 
-      // Or does it have /auth/login? 
-      // Standard pattern: 
-      // Gateway: /auth/login -> Service: /login  (pathRewrite needed)
-      // Gateway: /auth/login -> Service: /auth/login (no pathRewrite needed)
-      // I'll assume pathRewrite is safest to strip the prefix for now, unless the services are spaced out. 
-      // If I look at the service names "daily-challenges", "reward-wallet", they hint at domains. 
-      // Let's keep the rewrite to strip the prefix for now.
+      [`^${route}`]: '',
     },
     onProxyReq: (proxyReq, req, res) => {
-      // Optional: Add custom headers or logging
+      // Pass user info to backend services if authenticated
+      if (req.user) {
+        proxyReq.setHeader('X-User-Id', req.user.userId);
+        proxyReq.setHeader('X-User-Admin', req.user.isAdmin);
+      }
     },
     onError: (err, req, res) => {
-      console.error(`Error proxing request to ${target}:`, err);
+      console.error(`Error proxying request to ${target}:`, err);
       res.status(503).json({ error: 'Service Unavailable' });
     }
-  }));
+  });
+
+  // Apply authentication middleware if route is protected
+  if (isProtected) {
+    app.use(route, verifyToken, proxyMiddleware);
+  } else {
+    app.use(route, proxyMiddleware);
+  }
 });
 
 app.listen(PORT, () => {
