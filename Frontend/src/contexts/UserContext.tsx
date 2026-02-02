@@ -1,19 +1,23 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { authService } from '@/services/authService';
 
 interface User {
   id: string;
   name: string;
   email: string;
-  points: number;
-  completedChallenges: string[];
-  carbonFootprint: number | null;
+  totalRewardCoins?: number;
+  currentCarbonFootprint?: number | null;
+  isAdmin?: boolean;
+  mobileNumber?: string;
+  dob?: string;
+  completedChallenges?: string[];
 }
 
 interface UserContextType {
   user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (name: string, email: string, password: string) => Promise<boolean>;
+  signup: (name: string, email: string, password: string, mobileNumber: string, dob: string) => Promise<boolean>;
   logout: () => void;
   addPoints: (points: number) => void;
   completeChallenge: (challengeId: string) => void;
@@ -25,81 +29,102 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize from stored token on mount
+  useEffect(() => {
+    const token = authService.getToken();
+    const storedUser = localStorage.getItem('user');
+    if (token && storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setIsInitialized(true);
+  }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate login - in production, this would hit an API
-    if (email && password) {
-      const savedUser = localStorage.getItem(`user_${email}`);
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-        return true;
-      }
-      // Demo login
-      setUser({
-        id: '1',
-        name: email.split('@')[0],
-        email,
-        points: 100,
-        completedChallenges: [],
-        carbonFootprint: null,
-      });
+    try {
+      const data = await authService.login(email, password);
+      authService.setToken(data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
       return true;
+    } catch (error) {
+      console.error('Login failed:', error);
+      return false;
     }
-    return false;
   };
 
-  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
-    if (name && email && password) {
-      const newUser: User = {
-        id: Date.now().toString(),
-        name,
-        email,
-        points: 50, // Starting bonus
-        completedChallenges: [],
-        carbonFootprint: null,
-      };
-      localStorage.setItem(`user_${email}`, JSON.stringify(newUser));
-      setUser(newUser);
+  const signup = async (
+    name: string,
+    email: string,
+    password: string,
+    mobileNumber: string,
+    dob: string
+  ): Promise<boolean> => {
+    try {
+      const data = await authService.register(name, email, password, mobileNumber, dob);
+      // Now register returns a token like login does
+      if (data.token) {
+        authService.setToken(data.token);
+      }
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
       return true;
+    } catch (error) {
+      console.error('Signup failed:', error);
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
-    if (user) {
-      localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
-    }
+    authService.removeToken();
+    localStorage.removeItem('user');
     setUser(null);
   };
 
   const addPoints = (points: number) => {
     if (user) {
-      setUser({ ...user, points: user.points + points });
+      const updatedUser = { ...user, totalRewardCoins: (user.totalRewardCoins || 0) + points };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
 
   const completeChallenge = (challengeId: string) => {
-    if (user && !user.completedChallenges.includes(challengeId)) {
-      setUser({
-        ...user,
-        completedChallenges: [...user.completedChallenges, challengeId],
-      });
+    if (user) {
+      const completedChallenges = user.completedChallenges || [];
+      if (!completedChallenges.includes(challengeId)) {
+        const updatedUser = {
+          ...user,
+          completedChallenges: [...completedChallenges, challengeId],
+        };
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
     }
   };
 
   const setCarbonFootprint = (footprint: number) => {
     if (user) {
-      setUser({ ...user, carbonFootprint: footprint });
+      const updatedUser = { ...user, currentCarbonFootprint: footprint };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
 
   const spendPoints = (points: number): boolean => {
-    if (user && user.points >= points) {
-      setUser({ ...user, points: user.points - points });
+    if (user && (user.totalRewardCoins || 0) >= points) {
+      const updatedUser = { ...user, totalRewardCoins: (user.totalRewardCoins || 0) - points };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       return true;
     }
     return false;
   };
+
+  if (!isInitialized) {
+    return null; // or a loading component
+  }
 
   return (
     <UserContext.Provider

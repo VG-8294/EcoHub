@@ -5,8 +5,6 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.ecohub.workshop.dto.WorkshopRequestDto;
@@ -28,16 +26,8 @@ public class workshopController {
     public ResponseEntity<WorkshopResponseDto> createWorkshop(
             @Valid @RequestBody WorkshopRequestDto dto
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        Long userId = Long.valueOf(auth.getPrincipal().toString());
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
         return ResponseEntity.ok(
-                service.create(dto, userId, isAdmin)
+                service.create(dto)
         );
     }
 
@@ -61,14 +51,8 @@ public class workshopController {
             @PathVariable Long id,
             @Valid @RequestBody WorkshopRequestDto dto
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
         return ResponseEntity.ok(
-                service.update(id, dto, isAdmin)
+                service.update(id, dto)
         );
     }
 
@@ -77,14 +61,7 @@ public class workshopController {
     public ResponseEntity<Void> deleteWorkshop(
             @PathVariable Long id
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        service.delete(id, isAdmin);
-
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

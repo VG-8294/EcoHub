@@ -5,10 +5,7 @@ import com.ecohub.dailychallenges.dto.DailyChallengeResponseDto;
 import com.ecohub.dailychallenges.service.DailyChallengeService;
 
 import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +25,8 @@ public class DailyChallengeController {
     public ResponseEntity<DailyChallengeResponseDto> createChallenge(
             @Valid @RequestBody DailyChallengeRequestDto dto
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        Long userId = Long.valueOf(auth.getPrincipal().toString());
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
         return ResponseEntity.ok(
-                service.create(dto, userId, isAdmin)
+                service.create(dto)
         );
     }
 
@@ -61,14 +50,8 @@ public class DailyChallengeController {
             @PathVariable Long id,
             @Valid @RequestBody DailyChallengeRequestDto dto
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
         return ResponseEntity.ok(
-                service.update(id, dto, isAdmin)
+                service.update(id, dto)
         );
     }
 
@@ -77,14 +60,7 @@ public class DailyChallengeController {
     public ResponseEntity<String> deleteChallenge(
             @PathVariable Long id
     ) {
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        boolean isAdmin = auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-        service.delete(id, isAdmin);
-
+        service.delete(id);
         return ResponseEntity.ok("Daily Challenge deleted successfully");
     }
 }

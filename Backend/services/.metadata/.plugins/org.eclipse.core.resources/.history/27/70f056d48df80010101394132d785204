@@ -1,5 +1,0 @@
-package com.ecohub.workshop.security;
-
-public class JwtUtil {
-
-}

@@ -6,13 +6,14 @@ import com.ecohub.dailychallenges.dto.DailyChallengeRequestDto;
 import com.ecohub.dailychallenges.dto.DailyChallengeResponseDto;
 
 public interface DailyChallengeService {
-	DailyChallengeResponseDto create(DailyChallengeRequestDto dto, Long userId, boolean isAdmin);
+
+    DailyChallengeResponseDto create(DailyChallengeRequestDto dto);
 
     List<DailyChallengeResponseDto> getAll();
 
     DailyChallengeResponseDto getById(Long id);
 
-    DailyChallengeResponseDto update(Long id, DailyChallengeRequestDto dto, boolean isAdmin);
+    DailyChallengeResponseDto update(Long id, DailyChallengeRequestDto dto);
 
-    void delete(Long id, boolean isAdmin);
+    void delete(Long id);
 }

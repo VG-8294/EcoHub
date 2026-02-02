@@ -49,5 +49,9 @@ public class RewardWalletController {
         return ResponseEntity.ok(
                 walletService.debit(userId, dto.getAmount())
         );
+        
+        
     }
+
+
 }

@@ -1,0 +1,38 @@
+{
+  "name": "ecohub",
+  "version": "1.0.0",
+  "description": "EcoHub - Ecosystem Management Platform",
+  "main": "all-services.js",
+  "scripts": {
+    "start": "node all-services.js",
+    "start:all": "node all-services.js",
+    "start:docker": "node start-docker.js",
+    "start:docker-only": "node start-docker.js",
+    "dev": "node all-services.js",
+    "dev:all": "node all-services.js",
+    "dev:docker": "node start-docker.js"
+  },
+  "keywords": [
+    "ecohub",
+    "ecosystem",
+    "challenges",
+    "rewards",
+    "workshop",
+    "shop"
+  ],
+  "author": "EcoHub Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/ecohub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/ecohub/issues"
+  },
+  "homepage": "https://github.com/your-org/ecohub#readme"
+}

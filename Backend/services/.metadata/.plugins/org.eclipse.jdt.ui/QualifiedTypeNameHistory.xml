@@ -24,9 +24,10 @@
     <fullyQualifiedTypeName name="com.ecohub.rewardwallet.repository.WalletRepository"/>
     <fullyQualifiedTypeName name="com.ecohub.rewardwallet.dto.WalletResponseDto"/>
     <fullyQualifiedTypeName name="com.ecohub.rewardwallet.dto.RewardTransactionResponseDto"/>
-    <fullyQualifiedTypeName name="lombok.Getter"/>
-    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="com.ecohub.shop.dto.WalletAmountRequestDto"/>
 </qualifiedTypeNameHistroy>

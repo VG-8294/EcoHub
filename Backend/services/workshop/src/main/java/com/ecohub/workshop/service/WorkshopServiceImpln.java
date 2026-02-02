@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import com.ecohub.workshop.dto.WorkshopRequestDto;
 import com.ecohub.workshop.dto.WorkshopResponseDto;
 import com.ecohub.workshop.entity.Workshop;
-//import com.ecohub.workshop.repository.WorkshopRepository;
 import com.ecohub.workshop.repository.workshopRepository;
 
-@Service   // 🔴 VERY IMPORTANT
+@Service
 public class WorkshopServiceImpln implements WorkshopService {
 
     private final workshopRepository repository;
@@ -21,13 +20,9 @@ public class WorkshopServiceImpln implements WorkshopService {
 
     // ================= CREATE =================
     @Override
-    public WorkshopResponseDto create(
-            WorkshopRequestDto dto,
-            Long userId,
-            boolean isAdmin
-    ) {
-        Workshop workshop = new Workshop();
+    public WorkshopResponseDto create(WorkshopRequestDto dto) {
 
+        Workshop workshop = new Workshop();
         workshop.setTitle(dto.getTitle());
         workshop.setDescription(dto.getDescription());
         workshop.setWorkshopDateTime(dto.getWorkshopDateTime());
@@ -36,7 +31,6 @@ public class WorkshopServiceImpln implements WorkshopService {
         workshop.setRewardCoinValue(dto.getRewardCoinValue());
 
         Workshop savedWorkshop = repository.save(workshop);
-
         return new WorkshopResponseDto(savedWorkshop);
     }
 
@@ -60,11 +54,8 @@ public class WorkshopServiceImpln implements WorkshopService {
 
     // ================= UPDATE =================
     @Override
-    public WorkshopResponseDto update(
-            Long id,
-            WorkshopRequestDto dto,
-            boolean isAdmin
-    ) {
+    public WorkshopResponseDto update(Long id, WorkshopRequestDto dto) {
+
         Workshop workshop = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Workshop not found"));
 
@@ -76,13 +67,12 @@ public class WorkshopServiceImpln implements WorkshopService {
         workshop.setRewardCoinValue(dto.getRewardCoinValue());
 
         Workshop updatedWorkshop = repository.save(workshop);
-
         return new WorkshopResponseDto(updatedWorkshop);
     }
 
     // ================= DELETE =================
     @Override
-    public void delete(Long id, boolean isAdmin) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }

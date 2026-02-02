@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useUser } from '@/contexts/UserContext';
-import { Leaf, Mail, Lock, User, ArrowLeft } from 'lucide-react';
+import { Leaf, Mail, Lock, User, ArrowLeft, Phone, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const Auth = () => {
@@ -12,6 +12,8 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [dob, setDob] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { login, signup, isAuthenticated } = useUser();
@@ -34,7 +36,17 @@ const Auth = () => {
       if (isLogin) {
         success = await login(email, password);
       } else {
-        success = await signup(name, email, password);
+        // Validate signup fields
+        if (!name || !email || !password || !mobileNumber || !dob) {
+          toast({
+            title: 'Missing Fields',
+            description: 'Please fill in all fields.',
+            variant: 'destructive',
+          });
+          setLoading(false);
+          return;
+        }
+        success = await signup(name, email, password, mobileNumber, dob);
       }
 
       if (success) {
@@ -53,9 +65,10 @@ const Auth = () => {
         });
       }
     } catch (error) {
+      console.error('Auth error:', error);
       toast({
         title: 'Error',
-        description: 'Something went wrong. Please try again.',
+        description: error.message || 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -173,6 +186,43 @@ const Auth = () => {
                   />
                 </div>
               </div>
+
+              {!isLogin && (
+                <>
+                  <div className="space-y-2">
+                    <Label className="font-bold uppercase text-sm tracking-wider">
+                      Mobile Number
+                    </Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <Input
+                        type="tel"
+                        placeholder="+1 (555) 000-0000"
+                        value={mobileNumber}
+                        onChange={(e) => setMobileNumber(e.target.value)}
+                        className="pl-10 h-12 border-2 border-foreground"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="font-bold uppercase text-sm tracking-wider">
+                      Date of Birth
+                    </Label>
+                    <div className="relative">
+                      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <Input
+                        type="date"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                        className="pl-10 h-12 border-2 border-foreground"
+                        required
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
 
               <Button
                 type="submit"
