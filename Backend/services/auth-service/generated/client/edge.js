@@ -139,7 +139,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "D:\\Projects\\eco-journey-main\\Backend\\generated\\client",
+      "value": "D:\\Projects\\EcoHub\\Backend\\services\\auth-service\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -153,7 +153,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Projects\\eco-journey-main\\Backend\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Projects\\EcoHub\\Backend\\services\\auth-service\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

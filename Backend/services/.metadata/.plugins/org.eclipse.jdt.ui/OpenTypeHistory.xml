@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
     <typeInfo handle="=daily-challenges/C:\/Users\/hp\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/4.0.1\/spring-data-jpa-4.0.1.jar=/maven.pomderived=/true=/=/maven.groupId=/org.springframework.data=/=/maven.artifactId=/spring-data-jpa=/=/maven.version=/4.0.1=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1768976825207"/>
-    <typeInfo handle="=daily-challenges/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.dailychallenges.service{DailyChallengeService.java[DailyChallengeService" modifiers="513" timestamp="1769422514606"/>
-    <typeInfo handle="=workshop/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.workshop.service{WorkshopService.java[WorkshopService" modifiers="513" timestamp="1769424771245"/>
+    <typeInfo handle="=daily-challenges/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.dailychallenges.service{DailyChallengeService.java[DailyChallengeService" modifiers="513" timestamp="1770006925697"/>
+    <typeInfo handle="=workshop/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.workshop.service{WorkshopService.java[WorkshopService" modifiers="513" timestamp="1770007692146"/>
     <typeInfo handle="=shop/C:\/Users\/hp\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/4.0.2\/spring-data-jpa-4.0.2.jar=/maven.pomderived=/true=/=/maven.groupId=/org.springframework.data=/=/maven.artifactId=/spring-data-jpa=/=/maven.version=/4.0.2=/=/maven.scope=/compile=/=/maven.pomderived=/true=/&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1769357139840"/>
     <typeInfo handle="=shop/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.shop.service{ProductService.java[ProductService" modifiers="513" timestamp="1769668635751"/>
-    <typeInfo handle="=shop/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.shop.service{PurchaseService.java[PurchaseService" modifiers="513" timestamp="1769854209319"/>
+    <typeInfo handle="=shop/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.ecohub.shop.service{PurchaseService.java[PurchaseService" modifiers="513" timestamp="1769951050184"/>
 </typeInfoHistroy>

@@ -42,7 +42,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         try {
             restTemplate.postForEntity(
-                "http://localhost:8083/wallet/" + userId + "/debit",
+                "http://localhost:8084/wallet/" + userId + "/debit",
                 request,
                 Void.class
             );

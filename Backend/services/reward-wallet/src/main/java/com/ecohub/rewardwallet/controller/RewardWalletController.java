@@ -17,7 +17,7 @@ public class RewardWalletController {
         this.walletService = walletService;
     }
 
-    @PostMapping("create/{userId}")
+    @PostMapping("/create/{userId}")
     public ResponseEntity<WalletResponseDto> createWallet(
             @PathVariable Long userId
     ) {

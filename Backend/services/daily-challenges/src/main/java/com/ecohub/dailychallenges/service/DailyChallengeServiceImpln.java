@@ -28,9 +28,9 @@ public class DailyChallengeServiceImpln implements DailyChallengeService {
         challenge.setRewardCoinValue(dto.getRewardCoinValue());
         challenge.setIsActive(true);
 
-        // since auth is disabled
-        challenge.setIsCreatedByAdmin(false);
-        challenge.setCreatedByUserId(null);
+        // Set a default user ID (0L for system/admin creation)
+        challenge.setIsCreatedByAdmin(true);
+        challenge.setCreatedByUserId(0L);
 
         challenge.setCreatedAt(LocalDateTime.now());
 
