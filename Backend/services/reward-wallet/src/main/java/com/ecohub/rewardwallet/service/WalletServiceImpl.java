@@ -19,9 +19,10 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public WalletResponseDto createWallet(Long userId) {
+        System.out.println("Creating wallet for user: " + userId + " with balance 200");
         Wallet wallet = new Wallet();
         wallet.setUserId(userId);
-        wallet.setBalance(0);
+        wallet.setBalance(200);
         wallet.setUpdatedAt(LocalDateTime.now());
 
         return new WalletResponseDto(walletRepository.save(wallet));

@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, mobileNumber, dob } = req.body;
     console.log(req.body);
-    
+
     // Validate required fields
     if (!name || !email || !password || !mobileNumber || !dob) {
       return res.status(400).json({
@@ -19,11 +19,11 @@ exports.register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    
+
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
-    
+
     // Create user directly with Prisma (no Mongoose model needed)
     const newUser = await prisma.user.create({
       data: {
@@ -34,7 +34,7 @@ exports.register = async (req, res) => {
         dob: new Date(dob), // Convert string to Date object
       }
     });
-    
+
     // Generate JWT token
     const token = jwt.sign(
       {
@@ -46,9 +46,9 @@ exports.register = async (req, res) => {
         expiresIn: process.env.JWT_EXPIRES_IN || "1d",
       }
     );
-    
+
     // Send response (don't send password)
-    res.status(201).json({ 
+    res.status(201).json({
       message: 'User registered successfully',
       token,
       user: {
@@ -64,9 +64,9 @@ exports.register = async (req, res) => {
     });
   } catch (error) {
     console.error("REGISTER ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Server Error",
-      error: error.message 
+      error: error.message
     });
   }
 };
@@ -74,7 +74,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
+
     // Validate required fields
     if (!email || !password) {
       return res.status(400).json({
@@ -83,10 +83,10 @@ exports.login = async (req, res) => {
     }
 
     // Find user by email
-    const existingUser = await prisma.user.findUnique({ 
-      where: { email: email.toLowerCase().trim() } 
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase().trim() }
     });
-    
+
     if (!existingUser) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -108,7 +108,7 @@ exports.login = async (req, res) => {
         expiresIn: process.env.JWT_EXPIRES_IN || "1d",
       }
     );
-    
+
     // Send response (never send password)
     res.status(200).json({
       message: "Login successful",
@@ -124,9 +124,9 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     console.error("LOGIN ERROR:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Server Error",
-      error: error.message 
+      error: error.message
     });
   }
 };

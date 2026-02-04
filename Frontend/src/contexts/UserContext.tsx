@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { authService } from '@/services/authService';
+import { walletService } from '@/services/walletService';
 
 interface User {
   id: string;
@@ -11,6 +12,7 @@ interface User {
   mobileNumber?: string;
   dob?: string;
   completedChallenges?: string[];
+  points?: number; // Mapped from totalRewardCoins or wallet balance
 }
 
 interface UserContextType {
@@ -41,12 +43,43 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setIsInitialized(true);
   }, []);
 
+  // Map backend user object to local user object with points
+  const mapUser = (backendUser: any): User => {
+    return {
+      ...backendUser,
+      points: backendUser.totalRewardCoins || backendUser.points || 0
+    };
+  };
+
+  // Fetch wallet balance when user is available
+  useEffect(() => {
+    if (user?.id) {
+      walletService.getBalance(user.id)
+        .then(data => {
+          if (data && typeof data.balance === 'number') {
+            setUser(prev => {
+              if (!prev) return prev;
+              const updated = {
+                ...prev,
+                totalRewardCoins: data.balance,
+                points: data.balance
+              };
+              localStorage.setItem('user', JSON.stringify(updated));
+              return updated;
+            });
+          }
+        })
+        .catch(err => console.error("Failed to sync wallet", err));
+    }
+  }, [user?.id]);
+
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       const data = await authService.login(email, password);
       authService.setToken(data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      setUser(data.user);
+      const userWithPoints = mapUser(data.user);
+      localStorage.setItem('user', JSON.stringify(userWithPoints));
+      setUser(userWithPoints);
       return true;
     } catch (error) {
       console.error('Login failed:', error);
@@ -67,8 +100,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
       if (data.token) {
         authService.setToken(data.token);
       }
-      localStorage.setItem('user', JSON.stringify(data.user));
-      setUser(data.user);
+      const userWithPoints = mapUser(data.user);
+      localStorage.setItem('user', JSON.stringify(userWithPoints));
+      setUser(userWithPoints);
       return true;
     } catch (error) {
       console.error('Signup failed:', error);
@@ -84,9 +118,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const addPoints = (points: number) => {
     if (user) {
-      const updatedUser = { ...user, totalRewardCoins: (user.totalRewardCoins || 0) + points };
+      const updatedUser = {
+        ...user,
+        totalRewardCoins: (user.points || 0) + points,
+        points: (user.points || 0) + points
+      };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      // Sync with backend
+      walletService.credit(user.id, points).catch(e => console.error("Credit failed", e));
     }
   };
 
@@ -113,10 +154,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
   };
 
   const spendPoints = (points: number): boolean => {
-    if (user && (user.totalRewardCoins || 0) >= points) {
-      const updatedUser = { ...user, totalRewardCoins: (user.totalRewardCoins || 0) - points };
+    if (user && (user.points || 0) >= points) {
+      const updatedUser = {
+        ...user,
+        totalRewardCoins: (user.points || 0) - points,
+        points: (user.points || 0) - points
+      };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      // Sync with backend
+      walletService.debit(user.id, points).catch(e => console.error("Debit failed", e));
       return true;
     }
     return false;
