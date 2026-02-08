@@ -131,6 +131,8 @@ exports.Prisma.UserScalarFieldEnum = {
   isAdmin: 'isAdmin',
   totalRewardCoins: 'totalRewardCoins',
   currentCarbonFootprint: 'currentCarbonFootprint',
+  resetPasswordToken: 'resetPasswordToken',
+  resetPasswordExpire: 'resetPasswordExpire',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -149,7 +151,8 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   name: 'name',
   email: 'email',
   passwordHash: 'passwordHash',
-  mobileNumber: 'mobileNumber'
+  mobileNumber: 'mobileNumber',
+  resetPasswordToken: 'resetPasswordToken'
 };
 
 

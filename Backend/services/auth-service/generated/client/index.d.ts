@@ -887,6 +887,8 @@ export namespace Prisma {
     isAdmin: boolean | null
     totalRewardCoins: number | null
     currentCarbonFootprint: number | null
+    resetPasswordToken: string | null
+    resetPasswordExpire: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -901,6 +903,8 @@ export namespace Prisma {
     isAdmin: boolean | null
     totalRewardCoins: number | null
     currentCarbonFootprint: number | null
+    resetPasswordToken: string | null
+    resetPasswordExpire: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -915,6 +919,8 @@ export namespace Prisma {
     isAdmin: number
     totalRewardCoins: number
     currentCarbonFootprint: number
+    resetPasswordToken: number
+    resetPasswordExpire: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -943,6 +949,8 @@ export namespace Prisma {
     isAdmin?: true
     totalRewardCoins?: true
     currentCarbonFootprint?: true
+    resetPasswordToken?: true
+    resetPasswordExpire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -957,6 +965,8 @@ export namespace Prisma {
     isAdmin?: true
     totalRewardCoins?: true
     currentCarbonFootprint?: true
+    resetPasswordToken?: true
+    resetPasswordExpire?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -971,6 +981,8 @@ export namespace Prisma {
     isAdmin?: true
     totalRewardCoins?: true
     currentCarbonFootprint?: true
+    resetPasswordToken?: true
+    resetPasswordExpire?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1072,6 +1084,8 @@ export namespace Prisma {
     isAdmin: boolean
     totalRewardCoins: number
     currentCarbonFootprint: number | null
+    resetPasswordToken: string | null
+    resetPasswordExpire: Date | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1105,6 +1119,8 @@ export namespace Prisma {
     isAdmin?: boolean
     totalRewardCoins?: boolean
     currentCarbonFootprint?: boolean
+    resetPasswordToken?: boolean
+    resetPasswordExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -1121,11 +1137,13 @@ export namespace Prisma {
     isAdmin?: boolean
     totalRewardCoins?: boolean
     currentCarbonFootprint?: boolean
+    resetPasswordToken?: boolean
+    resetPasswordExpire?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "mobileNumber" | "dob" | "isAdmin" | "totalRewardCoins" | "currentCarbonFootprint" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "mobileNumber" | "dob" | "isAdmin" | "totalRewardCoins" | "currentCarbonFootprint" | "resetPasswordToken" | "resetPasswordExpire" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1140,6 +1158,8 @@ export namespace Prisma {
       isAdmin: boolean
       totalRewardCoins: number
       currentCarbonFootprint: number | null
+      resetPasswordToken: string | null
+      resetPasswordExpire: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -1520,6 +1540,8 @@ export namespace Prisma {
     readonly isAdmin: FieldRef<"User", 'Boolean'>
     readonly totalRewardCoins: FieldRef<"User", 'Int'>
     readonly currentCarbonFootprint: FieldRef<"User", 'Float'>
+    readonly resetPasswordToken: FieldRef<"User", 'String'>
+    readonly resetPasswordExpire: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -1867,6 +1889,8 @@ export namespace Prisma {
     isAdmin: 'isAdmin',
     totalRewardCoins: 'totalRewardCoins',
     currentCarbonFootprint: 'currentCarbonFootprint',
+    resetPasswordToken: 'resetPasswordToken',
+    resetPasswordExpire: 'resetPasswordExpire',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -1894,7 +1918,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     passwordHash: 'passwordHash',
-    mobileNumber: 'mobileNumber'
+    mobileNumber: 'mobileNumber',
+    resetPasswordToken: 'resetPasswordToken'
   };
 
   export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -1956,6 +1981,8 @@ export namespace Prisma {
     isAdmin?: BoolFilter<"User"> | boolean
     totalRewardCoins?: IntFilter<"User"> | number
     currentCarbonFootprint?: FloatNullableFilter<"User"> | number | null
+    resetPasswordToken?: StringNullableFilter<"User"> | string | null
+    resetPasswordExpire?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
@@ -1970,6 +1997,8 @@ export namespace Prisma {
     isAdmin?: SortOrder
     totalRewardCoins?: SortOrder
     currentCarbonFootprint?: SortOrderInput | SortOrder
+    resetPasswordToken?: SortOrderInput | SortOrder
+    resetPasswordExpire?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _relevance?: UserOrderByRelevanceInput
@@ -1988,6 +2017,8 @@ export namespace Prisma {
     isAdmin?: BoolFilter<"User"> | boolean
     totalRewardCoins?: IntFilter<"User"> | number
     currentCarbonFootprint?: FloatNullableFilter<"User"> | number | null
+    resetPasswordToken?: StringNullableFilter<"User"> | string | null
+    resetPasswordExpire?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }, "id" | "email">
@@ -2002,6 +2033,8 @@ export namespace Prisma {
     isAdmin?: SortOrder
     totalRewardCoins?: SortOrder
     currentCarbonFootprint?: SortOrderInput | SortOrder
+    resetPasswordToken?: SortOrderInput | SortOrder
+    resetPasswordExpire?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -2024,6 +2057,8 @@ export namespace Prisma {
     isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
     totalRewardCoins?: IntWithAggregatesFilter<"User"> | number
     currentCarbonFootprint?: FloatNullableWithAggregatesFilter<"User"> | number | null
+    resetPasswordToken?: StringNullableWithAggregatesFilter<"User"> | string | null
+    resetPasswordExpire?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -2037,6 +2072,8 @@ export namespace Prisma {
     isAdmin?: boolean
     totalRewardCoins?: number
     currentCarbonFootprint?: number | null
+    resetPasswordToken?: string | null
+    resetPasswordExpire?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2051,6 +2088,8 @@ export namespace Prisma {
     isAdmin?: boolean
     totalRewardCoins?: number
     currentCarbonFootprint?: number | null
+    resetPasswordToken?: string | null
+    resetPasswordExpire?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2064,6 +2103,8 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     totalRewardCoins?: IntFieldUpdateOperationsInput | number
     currentCarbonFootprint?: NullableFloatFieldUpdateOperationsInput | number | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpire?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2078,6 +2119,8 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     totalRewardCoins?: IntFieldUpdateOperationsInput | number
     currentCarbonFootprint?: NullableFloatFieldUpdateOperationsInput | number | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpire?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2092,6 +2135,8 @@ export namespace Prisma {
     isAdmin?: boolean
     totalRewardCoins?: number
     currentCarbonFootprint?: number | null
+    resetPasswordToken?: string | null
+    resetPasswordExpire?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2105,6 +2150,8 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     totalRewardCoins?: IntFieldUpdateOperationsInput | number
     currentCarbonFootprint?: NullableFloatFieldUpdateOperationsInput | number | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpire?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2119,6 +2166,8 @@ export namespace Prisma {
     isAdmin?: BoolFieldUpdateOperationsInput | boolean
     totalRewardCoins?: IntFieldUpdateOperationsInput | number
     currentCarbonFootprint?: NullableFloatFieldUpdateOperationsInput | number | null
+    resetPasswordToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetPasswordExpire?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2176,6 +2225,32 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -2197,6 +2272,8 @@ export namespace Prisma {
     isAdmin?: SortOrder
     totalRewardCoins?: SortOrder
     currentCarbonFootprint?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2217,6 +2294,8 @@ export namespace Prisma {
     isAdmin?: SortOrder
     totalRewardCoins?: SortOrder
     currentCarbonFootprint?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2231,6 +2310,8 @@ export namespace Prisma {
     isAdmin?: SortOrder
     totalRewardCoins?: SortOrder
     currentCarbonFootprint?: SortOrder
+    resetPasswordToken?: SortOrder
+    resetPasswordExpire?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2313,6 +2394,38 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2339,6 +2452,14 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2392,6 +2513,32 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2486,6 +2633,38 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | null
+    notIn?: string[] | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    search?: string
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
 

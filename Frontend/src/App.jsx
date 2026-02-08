@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserProvider } from "@/contexts/UserContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Calculator from "./pages/Calculator";
 import Challenges from "./pages/Challenges";
 import Shop from "./pages/Shop";
@@ -23,6 +25,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/challenges" element={<Challenges />} />
             <Route path="/shop" element={<Shop />} />

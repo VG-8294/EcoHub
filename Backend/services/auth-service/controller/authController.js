@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const prisma = require('./../config/prisma');
 
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
 exports.register = async (req, res) => {
   try {
     const { name, email, password, mobileNumber, dob } = req.body;
@@ -128,5 +131,115 @@ exports.login = async (req, res) => {
       message: "Server Error",
       error: error.message
     });
+  }
+};
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+
+    // Hash token and set to resetPasswordToken field
+    const resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(resetToken)
+      .digest('hex');
+
+    // Set expire time (10 minutes)
+    const resetPasswordExpire = new Date(Date.now() + 10 * 60 * 1000);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetPasswordToken,
+        resetPasswordExpire,
+      },
+    });
+
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+
+    // Try to send email, but don't fail properly if it breaks (dev mode)
+    try {
+      const testAccount = await nodemailer.createTestAccount();
+      const transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+
+      const message = {
+        from: '"EcoHub Support" <support@ecohub.com>',
+        to: email,
+        subject: 'Password Reset Request',
+        text: `You requested a password reset. Please click the link to reset your password: ${resetUrl}`,
+        html: `<p>You requested a password reset</p><p>Click this link to reset your password:</p><a href="${resetUrl}">${resetUrl}</a>`,
+      };
+
+      const info = await transporter.sendMail(message);
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    } catch (emailErr) {
+      console.error("Email sending failed (ignored for dev):", emailErr);
+    }
+
+    console.log(`Reset Password URL: ${resetUrl}`);
+
+    res.status(200).json({
+      success: true,
+      data: 'Email sent',
+      devMessage: 'Check backend terminal or UI for link',
+      resetUrl,
+    });
+  } catch (error) {
+    console.error("FORGOT PASSWORD ERROR:", error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const resetPasswordToken = crypto
+      .createHash('sha256')
+      .update(req.params.resettoken)
+      .digest('hex');
+
+    const user = await prisma.user.findFirst({
+      where: {
+        resetPasswordToken,
+        resetPasswordExpire: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid token' });
+    }
+
+    // Set new password
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(req.body.password, salt);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        passwordHash,
+        resetPasswordToken: null,
+        resetPasswordExpire: null,
+      },
+    });
+
+    res.status(200).json({ success: true, data: 'Password updated' });
+  } catch (error) {
+    console.error("RESET PASSWORD ERROR:", error);
+    res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };

@@ -18,43 +18,41 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyChallenges {
-	 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long challengeId;
 
-	    @NotBlank
-	    @Column(nullable = false)
-	    private String title;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long challengeId;
 
-	    @NotBlank
-	    @Size(min = 10, max = 500)
-	    private String description;
+	@NotBlank
+	@Column(nullable = false)
+	private String title;
 
-	    
-	    @Enumerated(EnumType.STRING)
-	    private ChallengeCategory category;
-	    
-	    @Column(length = 100)
-	    private String userDefinedType;
+	@NotBlank
+	@Size(min = 10, max = 500)
+	private String description;
 
+	@Enumerated(EnumType.STRING)
+	private ChallengeCategory category;
 
-	    @NotNull
-	    @Positive
-	    private Integer rewardCoinValue;
+	@Column(length = 100)
+	private String userDefinedType;
 
-	    @NotNull
-	    @Column(updatable = false)
-	    private Long createdByUserId;
+	@NotNull
+	@Positive
+	private Integer rewardCoinValue;
 
-	    private Boolean isCreatedByAdmin = false;
+	@NotNull
+	@Column(updatable = false)
+	private Long createdByUserId;
 
-	    private Boolean isActive = true;
+	private Boolean isCreatedByAdmin = false;
 
-	    @CreationTimestamp
-	    @Column(updatable = false)
-	    private LocalDateTime createdAt;
+	private Boolean isActive = true;
 
-	    @UpdateTimestamp
-	    private LocalDateTime updatedAt;
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDateTime createdAt;
+
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
 }

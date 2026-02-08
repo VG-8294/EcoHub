@@ -111,22 +111,20 @@ const Auth = () => {
               <button
                 type="button"
                 onClick={() => setIsLogin(true)}
-                className={`flex-1 py-3 text-center font-bold uppercase text-sm tracking-wider border-2 border-foreground transition-all ${
-                  isLogin
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-secondary-foreground'
-                }`}
+                className={`flex-1 py-3 text-center font-bold uppercase text-sm tracking-wider border-2 border-foreground transition-all ${isLogin
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground'
+                  }`}
               >
                 Login
               </button>
               <button
                 type="button"
                 onClick={() => setIsLogin(false)}
-                className={`flex-1 py-3 text-center font-bold uppercase text-sm tracking-wider border-2 border-l-0 border-foreground transition-all ${
-                  !isLogin
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-secondary-foreground'
-                }`}
+                className={`flex-1 py-3 text-center font-bold uppercase text-sm tracking-wider border-2 border-l-0 border-foreground transition-all ${!isLogin
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-secondary text-secondary-foreground'
+                  }`}
               >
                 Sign Up
               </button>
@@ -150,6 +148,8 @@ const Auth = () => {
                     />
                   </div>
                 </div>
+
+
               )}
 
               <div className="space-y-2">
@@ -186,6 +186,17 @@ const Auth = () => {
                   />
                 </div>
               </div>
+
+              {isLogin && (
+                <div className="flex justify-end">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm font-bold text-muted-foreground hover:text-primary hover:underline"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+              )}
 
               {!isLogin && (
                 <>
@@ -233,8 +244,8 @@ const Auth = () => {
                 {loading
                   ? 'Please wait...'
                   : isLogin
-                  ? 'Login'
-                  : 'Create Account'}
+                    ? 'Login'
+                    : 'Create Account'}
               </Button>
             </form>
 

@@ -9,7 +9,6 @@ import com.ecohub.dailychallenges.entity.ChallengeCategory;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @Setter
 public class DailyChallengeResponseDto {

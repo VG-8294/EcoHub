@@ -213,17 +213,15 @@ const Challenges = () => {
               return (
                 <div
                   key={challenge.id}
-                  className={`bg-card border-2 border-foreground p-6 transition-all duration-200 ${
-                    isCompleted
+                  className={`bg-card border-2 border-foreground p-6 transition-all duration-200 ${isCompleted
                       ? 'opacity-75'
                       : 'hover:shadow-lg hover:-translate-x-1 hover:-translate-y-1'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div
-                      className={`w-12 h-12 ${
-                        isCompleted ? 'bg-primary' : 'bg-secondary'
-                      } border-2 border-foreground flex items-center justify-center`}
+                      className={`w-12 h-12 ${isCompleted ? 'bg-primary' : 'bg-secondary'
+                        } border-2 border-foreground flex items-center justify-center`}
                     >
                       {isCompleted ? (
                         <Check className="h-6 w-6 text-primary-foreground" />

@@ -103,6 +103,8 @@ exports.Prisma.UserScalarFieldEnum = {
   isAdmin: 'isAdmin',
   totalRewardCoins: 'totalRewardCoins',
   currentCarbonFootprint: 'currentCarbonFootprint',
+  resetPasswordToken: 'resetPasswordToken',
+  resetPasswordExpire: 'resetPasswordExpire',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -121,7 +123,8 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   name: 'name',
   email: 'email',
   passwordHash: 'passwordHash',
-  mobileNumber: 'mobileNumber'
+  mobileNumber: 'mobileNumber',
+  resetPasswordToken: 'resetPasswordToken'
 };
 
 
@@ -167,7 +170,6 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -176,13 +178,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\" // Changed from \"prisma-client\"\n  output   = \"../generated/client\" // Simplified path (remove the dot)\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                     Int      @id @default(autoincrement())\n  name                   String\n  email                  String   @unique\n  passwordHash           String\n  mobileNumber           String\n  dob                    DateTime\n  isAdmin                Boolean  @default(false)\n  totalRewardCoins       Int      @default(0)\n  currentCarbonFootprint Float?\n  createdAt              DateTime @default(now())\n  updatedAt              DateTime @updatedAt\n\n  @@map(\"users\")\n}\n",
-  "inlineSchemaHash": "12bacfc8a7337924f3a33ef07c23f9d4f9d3e996dad4afdb3d7d8a0c1302707c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\" // Changed from \"prisma-client\"\n  output   = \"../generated/client\" // Simplified path (remove the dot)\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                     Int       @id @default(autoincrement())\n  name                   String\n  email                  String    @unique\n  passwordHash           String\n  mobileNumber           String\n  dob                    DateTime\n  isAdmin                Boolean   @default(false)\n  totalRewardCoins       Int       @default(0)\n  currentCarbonFootprint Float?\n  resetPasswordToken     String?\n  resetPasswordExpire    DateTime?\n  createdAt              DateTime  @default(now())\n  updatedAt              DateTime  @updatedAt\n\n  @@map(\"users\")\n}\n",
+  "inlineSchemaHash": "0953d4576dbbbd9c14f841ace08b91a0477d67cfd4af034f7a5cb6c2d8fb14f0",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mobileNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dob\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"totalRewardCoins\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"currentCarbonFootprint\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mobileNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dob\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"isAdmin\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"totalRewardCoins\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"currentCarbonFootprint\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"resetPasswordToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"resetPasswordExpire\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

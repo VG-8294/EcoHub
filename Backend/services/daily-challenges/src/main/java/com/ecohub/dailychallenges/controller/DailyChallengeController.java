@@ -23,11 +23,9 @@ public class DailyChallengeController {
     // ================= CREATE =================
     @PostMapping
     public ResponseEntity<DailyChallengeResponseDto> createChallenge(
-            @Valid @RequestBody DailyChallengeRequestDto dto
-    ) {
+            @Valid @RequestBody DailyChallengeRequestDto dto) {
         return ResponseEntity.ok(
-                service.create(dto)
-        );
+                service.create(dto));
     }
 
     // ================= READ ALL =================
@@ -39,8 +37,7 @@ public class DailyChallengeController {
     // ================= READ BY ID =================
     @GetMapping("/{id}")
     public ResponseEntity<DailyChallengeResponseDto> getChallengeById(
-            @PathVariable Long id
-    ) {
+            @PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
@@ -48,18 +45,15 @@ public class DailyChallengeController {
     @PutMapping("/{id}")
     public ResponseEntity<DailyChallengeResponseDto> updateChallenge(
             @PathVariable Long id,
-            @Valid @RequestBody DailyChallengeRequestDto dto
-    ) {
+            @Valid @RequestBody DailyChallengeRequestDto dto) {
         return ResponseEntity.ok(
-                service.update(id, dto)
-        );
+                service.update(id, dto));
     }
 
     // ================= DELETE =================
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteChallenge(
-            @PathVariable Long id
-    ) {
+            @PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok("Daily Challenge deleted successfully");
     }

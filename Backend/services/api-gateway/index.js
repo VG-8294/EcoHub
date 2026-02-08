@@ -56,14 +56,14 @@ services.forEach(({ route, target, changeOrigin, protected: isProtected }) => {
     onProxyReq: (proxyReq, req, res) => {
       // Log the request
       console.log(`[PROXY] ${req.method} ${req.originalUrl} -> ${target}${req.url}`);
-      
+
       // Pass user info to backend services if authenticated
       if (req.user) {
         proxyReq.setHeader('X-User-Id', req.user.userId);
         proxyReq.setHeader('X-User-Admin', req.user.isAdmin);
         console.log(`[AUTH] User ${req.user.userId} (Admin: ${req.user.isAdmin})`);
       }
-      
+
       // Properly handle body for POST, PUT, PATCH
       if (req.body && (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH')) {
         const bodyString = JSON.stringify(req.body);
@@ -78,8 +78,8 @@ services.forEach(({ route, target, changeOrigin, protected: isProtected }) => {
     },
     onError: (err, req, res) => {
       console.error(`[ERROR] Proxy error for ${req.method} ${req.originalUrl}:`, err.message);
-      res.status(503).json({ 
-        error: 'Service Unavailable', 
+      res.status(503).json({
+        error: 'Service Unavailable',
         message: err.message,
         service: target
       });
